@@ -12,6 +12,7 @@
 --   3. Investigates declared valuations and flags data-entry errors
 --
 -- Safe to re-run: every run drops and rebuilds both tables from the CSV.
+-- (It also drops the dashboard view; re-run 04_dashboard_view.sql afterwards.)
 -- Before running, save the CSV to C:/Users/Public/residential_permits.csv
 -- (the PostgreSQL server must be able to read the file).
 -- ============================================================
@@ -23,6 +24,7 @@
 --    and "1,886", which would make COPY fail on numeric columns.
 --    permits_raw is never modified, so it stays an exact copy of the source file.
 -- ------------------------------------------------------------
+drop view if exists permits_dashboard;  -- built on permits_clean in 04_dashboard_view.sql
 drop table if exists permits_clean;
 drop table if exists permits_raw;
 

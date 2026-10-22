@@ -2,7 +2,23 @@
 
 An end-to-end SQL analysis of **187,239 residential building permits** issued in Montgomery County, Maryland from 2000 to 2026. It covers loading and cleaning messy public data, then answering three questions: how good is the data, how long do approvals take, and where and how is the county building?
 
-**Tools:** PostgreSQL (CTEs, window functions, percentiles, regex, `UPDATE ... FROM`)
+**Tools:** PostgreSQL (CTEs, window functions, percentiles, regex, `UPDATE ... FROM`) · Power BI (DAX measures, calculated columns, maps)
+
+---
+
+## Dashboard
+
+A three-page Power BI dashboard built on a SQL view of the cleaned data ([`04_dashboard_view.sql`](04_dashboard_view.sql)).
+Download [`montgomery_permits.pbix`](montgomery_permits.pbix) to explore it in Power BI Desktop, or view the [PDF export](montgomery_permits.pdf).
+
+**Inner suburbs rebuild, outer suburbs expand**
+![Teardowns vs. new development](images/page3_growth.png)
+
+**How long does it take to get a permit?**
+![Approval times](images/page2_approval_times.png)
+
+**Overview**
+![Overview](images/page1_overview.png)
 
 ---
 
@@ -91,6 +107,7 @@ A 2× threshold flagged nearly a third of all permits, far too many to be data-e
 
 - **Teardown shares are a lower bound.** Teardowns were found by keywords in free-text descriptions. A teardown described only as, say, "NEW SFH" is missed, so the true share is at least as high as reported.
 - **Recent approval times are understated (right-censoring).** Slow permits from 2025–2026 haven't been issued yet (792 from 2026 are still pending), so only the fast ones are counted in those years' medians.
+- **City is the mailing-address city**, not the official municipal boundary. For example, "Rockville" addresses cover a much larger area than the City of Rockville.
 - **Declared valuation is self-reported** by applicants and isn't verified by the county.
 - **Use codes with very few permits can't be flagged as outliers**, because their median is effectively their own value.
 - **Correlation, not causation:** the timing of changes (the 2008 crash, COVID-19) is noted, but this data alone can't establish why approval times changed.
@@ -110,6 +127,9 @@ A 2× threshold flagged nearly a third of all permits, far too many to be data-e
 | [`01_load_and_clean.sql`](01_load_and_clean.sql) | Loads the raw data, builds `permits_clean`, investigates valuations and applies quality flags. Safe to re-run: it drops and rebuilds both tables. |
 | [`02_approval_times.sql`](02_approval_times.sql) | Approval-time analysis |
 | [`03_where_building_happens.sql`](03_where_building_happens.sql) | Construction value by city, new-home rankings and teardown analysis |
+| [`04_dashboard_view.sql`](04_dashboard_view.sql) | Creates `permits_dashboard`, the view the Power BI file loads |
+
+To open the dashboard with your own data, open `montgomery_permits.pbix` in Power BI Desktop and point the PostgreSQL connection (Transform data → Data source settings) at your database.
 
 The dataset updates daily, so results from a newer download will differ slightly from the numbers above.
 
@@ -117,7 +137,6 @@ The dataset updates daily, so results from a newer download will differ slightly
 
 ## Next steps
 
-- Build an interactive Power BI dashboard of these findings *(link coming soon)*
 - Compare home sizes (`area`) for teardown rebuilds vs. new developments
 - Cross-check teardowns against the county's Demolition Permits dataset to replace the keyword estimate with a direct match
 
