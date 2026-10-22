@@ -142,4 +142,4 @@ The dataset updates daily, so results from a newer download will differ slightly
 
 ---
 
-*Author: Ezanya Solomon Zewdu · [LinkedIn](https://www.linkedin.com/in/ezanya-solomon-zewdu-450aa2267/) · [GitHub](https://github.com/Ezanya-sol)*
+*Author: Ezanya Solomon Zewdu · [LinkedIn](https://www.linkedin.com/in/ezanya-zewdu) · [GitHub](https://github.com/Ezanya-sol)*
